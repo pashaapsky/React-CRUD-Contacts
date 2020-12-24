@@ -1,0 +1,41 @@
+.contacts {
+
+  &__container {
+    padding: 0 15px;
+  }
+
+  &__list {
+
+  }
+
+  &__item {
+    max-width: 400px;
+
+    display: flex;
+    flex-direction: column;
+
+
+    padding: 10px;
+
+    border: 1px solid black;
+
+    margin-bottom: 10px;
+  }
+
+  &__info {
+    margin-bottom: 20px;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+      margin-right: 10px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}

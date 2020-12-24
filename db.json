@@ -1,0 +1,61 @@
+{
+  "contacts": [
+    {
+      "name": "Новый1",
+      "phone": "1231",
+      "id": 4
+    },
+    {
+      "name": "qweq",
+      "phone": "12313",
+      "id": 5
+    },
+    {
+      "name": "ииии",
+      "phone": "55555",
+      "userId": 1,
+      "id": 6
+    },
+    {
+      "name": "qezzz",
+      "phone": "31231313",
+      "userId": 1,
+      "id": 7
+    },
+    {
+      "name": "qeqezz",
+      "phone": "3321313",
+      "userId": 1,
+      "id": 8
+    },
+    {
+      "name": "zzz",
+      "phone": "12313",
+      "userId": 1,
+      "id": 9
+    },
+    {
+      "name": "zzz",
+      "phone": "321313",
+      "userId": 2,
+      "id": 10
+    }
+  ],
+  "users": [
+    {
+      "email": "test1@mail.ru",
+      "password": "$2a$10$KYV/vxMa7ZfNLeFsBNzlNeFQquJOFFPJ6ZTqxif3VLYZqsmu7spUK",
+      "id": 1
+    },
+    {
+      "email": "test2@mail.ru",
+      "password": "$2a$10$KYV/vxMa7ZfNLeFsBNzlNeFQquJOFFPJ6ZTqxif3VLYZqsmu7spUK",
+      "id": 2
+    },
+    {
+      "email": "test3@mail.ru",
+      "password": "$2a$10$KYV/vxMa7ZfNLeFsBNzlNeFQquJOFFPJ6ZTqxif3VLYZqsmu7spUK",
+      "id": 3
+    }
+  ]
+}

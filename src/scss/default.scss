@@ -1,0 +1,29 @@
+ul {
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
+}
+
+.heading {
+  color: red;
+  font-size: 40px;
+}
+
+.home-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  max-width: 720px;
+
+  margin: 0 auto;
+}
+
+.auth-form {
+  width: 375px;
+  height: auto;
+}
