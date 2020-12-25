@@ -4,28 +4,28 @@ import {AuthContext} from './context/AuthContext';
 import useAuth from './hooks/auth.hook';
 import {useRoutes} from "./hooks/routes.hook";
 import './scss/default.scss'
+import AlertState from "./context/AlertState";
 
 
 function App() {
-  const {user, setUser, token, setToken, logout, register, login} = useAuth();
+    const {user, setUser, token, setToken, logout, register, login} = useAuth();
 
-  const isAuthenticated = !!token;
-  const routes = useRoutes(isAuthenticated);
+    const isAuthenticated = !!token;
+    const routes = useRoutes(isAuthenticated);
 
-  console.log('user', user);
-  console.log('token', token);
-
-  return (
-      <AuthContext.Provider value={{
-        user, token, setUser, setToken, logout, register, login
-      }}>
-        <div className="App">
-          <Router>
-            {routes}
-          </Router>
-        </div>
-      </AuthContext.Provider>
-  );
+    return (
+        <AuthContext.Provider value={{
+            user, token, setUser, setToken, logout, register, login
+        }}>
+            <AlertState>
+                <div className="App">
+                    <Router>
+                        {routes}
+                    </Router>
+                </div>
+            </AlertState>
+        </AuthContext.Provider>
+    );
 }
 
 export default App;

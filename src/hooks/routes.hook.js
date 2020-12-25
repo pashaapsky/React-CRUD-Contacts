@@ -11,17 +11,13 @@ export const useRoutes = (isAuthenticated) => {
                     <Profile />
                 </Route>
 
-                <Route exact path="/profile/contacts/:id">
-                    {/*<ContactIndex>*/}
-                </Route>
-
                 <Redirect to="/profile" />
             </Switch>
         )
     } else {
         return (
             <Switch>
-                <Route path="/">
+                <Route exact path="/">
                     <Home />
                 </Route>
 

@@ -1,29 +1,35 @@
-import React, {Fragment, useState, useContext, useEffect} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {AuthContext} from "../context/AuthContext";
-import Button from "@material-ui/core/Button";
+import Fuse from 'fuse.js'
 import axios from "../axios";
+import Button from "@material-ui/core/Button";
 import Contact from "../components/contact";
 import ContactForm from "../components/contactForm";
 
 import '../scss/profile.scss'
 import '../scss/contacts.scss'
 
+
 function Profile(props) {
     const {user, logout} = useContext(AuthContext);
     const [contacts, setContacts] = useState([]);
     const [userId, setUserId] = useState(null);
+    const [searchTerm, setSearchTerm] = useState('');
     const [isShowAddForm, setIsShowAddForm] = useState(false);
 
-    const addContact = async (values, userId) => {
+    const addContact = async (values) => {
         try {
-            const res = await axios.post('/contacts', {
+            await axios.post('/contacts', {
                 "name": values.name,
                 "phone": values.phone,
                 "userId": userId
             });
 
-            if (res) {
-                window.location.reload();
+            const newContacts = await axios.get('/contacts')
+                .then(res => res.data.filter(item => item.userId === userId));
+
+            if (newContacts) {
+                setContacts(newContacts);
             }
         } catch (e) {
             console.error(e.message)
@@ -32,10 +38,13 @@ function Profile(props) {
 
     const deleteContact = async (contactId) => {
         try {
-            const res = await axios.delete(`/contacts/${contactId}`);
+            await axios.delete(`/contacts/${contactId}`);
 
-            if (res) {
-                window.location.reload();
+            const newContacts = await axios.get('/contacts')
+                .then(res => res.data.filter(item => item.userId === userId));
+
+            if (newContacts) {
+                setContacts(newContacts);
             }
         } catch (e) {
             console.error(e.message)
@@ -44,58 +53,82 @@ function Profile(props) {
 
     const editContact = async (values, contactId) => {
         try {
-            const res = await axios.patch(`/contacts/${contactId}`, {
+            await axios.patch(`/contacts/${contactId}`, {
                 "name": values.name,
                 "phone": values.phone
             });
 
-            if (res) {
-                window.location.reload();
+            const newContacts = await axios.get('/contacts')
+                .then(res => res.data.filter(item => item.userId === userId));
+
+            if (newContacts) {
+                setContacts(newContacts);
             }
         } catch (e) {
             console.error(e.message)
         }
     };
 
-    useEffect(() => {
-        async function getUserContacts(user) {
-            try {
-                const userId = await axios.get('/users')
-                    .then(res => {
-                        const userItem = res.data.filter(item => item.email === user);
+    async function getUserContacts(user) {
+        try {
+            const userId = await axios.get('/users')
+                .then(res => {
+                    const userItem = res.data.filter(item => item.email === user.email);
 
-                        if (userItem.length) {
-                            return userItem[0].id;
-                        } else {
-                            return null
-                        }
-                    });
+                    if (userItem.length) {
+                        return userItem[0].id;
+                    } else {
+                        return null
+                    }
+                });
 
-                if (userId) {
-                    setUserId(userId);
-                }
-
-                const contacts = await axios.get(`/contacts?userId=${userId}`)
-                    .then(res => res.data);
-
-                if (contacts) {
-                    setContacts(contacts);
-                }
-            } catch (e) {
-                console.error(e.message)
+            if (userId) {
+                setUserId(userId);
             }
-        }
 
+            const contacts = await axios.get(`/contacts?userId=${userId}`)
+                .then(res => res.data);
+
+            if (contacts) {
+                setContacts(contacts);
+            }
+        } catch (e) {
+            console.error(e.message)
+        }
+    }
+
+    useEffect(() => {
         getUserContacts(user);
     }, [user]);
 
-    console.log('user', user);
-    console.log('contacts', contacts);
+
+    // поиск контактов
+    useEffect(() => {
+        const fuse = new Fuse(contacts, {
+            keys: ['phone', 'name'],
+        });
+
+        const results = fuse.search(searchTerm).map(({item}) => item);
+
+        if (contacts.length > 0 && searchTerm.length > 2 && results.length > 0) {
+            setContacts(results);
+        } else {
+            getUserContacts(user);
+        }
+    }, [searchTerm, user]);
+
 
     return (
         <div className="profile">
             <div className="profile__header">
                 <h1 className="profile__heading">Profile Page</h1>
+
+                <input
+                    type="text"
+                    value={searchTerm}
+                    onChange={event => setSearchTerm(event.target.value)}
+                    placeholder="Поиск по контактам"
+                />
 
                 <Button
                     variant="contained"
@@ -124,8 +157,12 @@ function Profile(props) {
                     </Button>
 
                     {isShowAddForm &&
-                    <ContactForm className="contacts__add-form" buttonTitle="Добавить контакт" handleSubmit={addContact}
-                                 id={userId}/>}
+                    <ContactForm
+                        className="contacts__add-form"
+                        buttonTitle="Добавить контакт"
+                        handleSubmit={addContact}
+                        contactId={userId}
+                    />}
                 </div>
             </div>
         </div>

@@ -8,8 +8,15 @@ function Contact({contact, editContact, deleteContact}) {
     return (
         <li className="contacts__item">
             <div className="contacts__info">
-                <span>{contact.name}</span>
-                <span>{contact.phone}</span>
+                <span>
+                    <strong>Имя: </strong>
+                    {contact.name}
+                </span>
+
+                <span>
+                    <strong>Номер: </strong>
+                    {contact.phone}
+                </span>
             </div>
 
             <div className="contacts__actions">
@@ -27,7 +34,7 @@ function Contact({contact, editContact, deleteContact}) {
                 </Button>
             </div>
 
-            {isShowEditForm && <ContactForm className="contacts__add-form" buttonTitle="Изменить контакт" values={contact} handleSubmit={editContact} id={contact.id}/>}
+            {isShowEditForm && <ContactForm className="contacts__edit-form" buttonTitle="Изменить контакт" values={contact} handleSubmit={editContact} contactId={contact.id}/>}
         </li>
     );
 }

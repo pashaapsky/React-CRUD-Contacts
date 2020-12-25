@@ -10,12 +10,10 @@ function useAuth(props) {
             const res = await axios.post('/login', {"email": values.email, "password": values.password});
 
             if (res) {
-                localStorage.setItem('authData', JSON.stringify({"user": values.email, "token": res.data.accessToken}));
+                localStorage.setItem('authData', JSON.stringify({"user": {'email' : values.email}, "token": res.data.accessToken}));
 
-                setUser({"user": values.email});
+                setUser({"email" : values.email});
                 setToken(res.data.accessToken);
-
-                console.log('res', res);
             }
         } catch (e) {
             console.error(e.message)
@@ -27,9 +25,9 @@ function useAuth(props) {
             const res = await axios.post('/register', {"email": values.email, "password": values.password});
 
             if (res) {
-                localStorage.setItem('authData', JSON.stringify({"user": values.email, "token": res.data.accessToken}));
+                localStorage.setItem('authData', JSON.stringify({"user": {"email": values.email}, "token": res.data.accessToken}));
 
-                setUser({"user": values.email});
+                setUser({"email": values.email});
                 setToken(res.data.accessToken);
             }
         } catch (e) {

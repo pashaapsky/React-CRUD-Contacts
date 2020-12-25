@@ -29,7 +29,6 @@ function AuthForm({className, buttonTitle, handleSubmit}) {
 
         onSubmit: (values) => {
             handleSubmit(values);
-            console.log('presssed');
 
             history.push('/profile');
         }
