@@ -1,5 +1,6 @@
 Для запуска приложения необходимо:
- установить зависимости {nodemodules}: npm i
+ установить зависимости {nodemodules} - в терминале команда
+    npm i
 
  в одном терминале запустить сервер командой:
     json-server db.json -m ./node_modules/json-server-auth --port 3001
