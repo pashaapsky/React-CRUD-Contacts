@@ -1,7 +1,6 @@
 import React, {Fragment, useContext, useState} from 'react';
 import AuthForm from "../components/authForm";
 import Button from '@material-ui/core/Button';
-import axios from "../axios";
 import {AuthContext} from "../context/AuthContext";
 
 function Home(props) {
